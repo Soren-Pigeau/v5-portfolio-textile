@@ -1,0 +1,71 @@
+/* Image PLEINE LARGEUR, bord à bord, aucune marge blanche.
+   sticky → reste pendant qu'on scrolle ; le bloc .below remonte
+   par-dessus (fond opaque) et la recouvre : la photo "part derrière". */
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.heroImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* remplit tout l'écran, jamais de bande blanche */
+  object-position: center;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 1.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  mix-blend-mode: difference;
+  font-size: 1rem;
+  animation: bob 1.8s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* Bloc qui recouvre l'image (opaque, au-dessus en z-index) */
+.below {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg);
+}
+
+.bio {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+}
+.bioInner { max-width: 760px; }
+.bioText {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.9vw, 1.4rem);
+  line-height: 1.5;
+  margin-bottom: 2.25rem;
+}
+.toAbout {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+
+@media (max-width: 768px) {
+  .bio { padding: 4rem 1.5rem; }
+}

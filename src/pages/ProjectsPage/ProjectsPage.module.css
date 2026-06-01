@@ -1,0 +1,234 @@
+/* ---------- Grille de dossiers ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  align-items: end;
+  padding: 7rem 2rem 7rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.folder {
+  background: none;
+  border: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  cursor: pointer; /* Indique qu'on peut cliquer */
+}
+
+.thumbWrap {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background-color: #f5f5f5; /* Fond très léger en attendant l'image */
+}
+
+/* NOUVEL EFFET : Image nette de base, léger zoom fluide au survol */
+.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1); /* Taille normale */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+}
+
+.folder:hover .thumb {
+  transform: scale(1.04); /* Zoom très léger et élégant */
+  opacity: 0.9; /* Baisse de l'opacité très légère pour l'effet "pro" */
+}
+
+/* Légende vignette : titre à gauche / année à droite — identique à l'accueil */
+.thumbMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+/* ---------- Vue détail repensée ---------- */
+.detailWrapper {
+  padding: 5rem 2rem 7rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.back {
+  background: none; border: none; color: var(--color-muted);
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.back:hover {
+  color: var(--color-text);
+}
+
+/* --- Section Haut : Image 1 (gauche) + Texte (droite) --- */
+.heroSection {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* L'image est légèrement plus large que le texte */
+  gap: 4rem;
+  align-items: start;
+  margin-bottom: 6rem;
+}
+
+.heroImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sideInfo {
+  position: sticky;
+  top: 7rem; /* Garde le texte fixe à l'écran si on scrolle sur la première image */
+  text-align: left;
+}
+
+.projectTitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+.infoText p {
+  margin-bottom: 0.8rem;
+}
+
+.order {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+
+/* --- Section Bas : Galerie Mixte (Masonry effect) --- */
+.photoGallery {
+  /* Aligne les images en 2 colonnes comme sur Pinterest */
+  column-count: 2;
+  column-gap: 2rem;
+}
+
+.galleryItem {
+  break-inside: avoid; /* Empêche de couper une image entre les deux colonnes */
+  margin-bottom: 2rem;
+}
+
+.galleryItem img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Responsive (Mobile) --- */
+@media (max-width: 768px) {
+  .detailWrapper { padding: 5rem 1.5rem; }
+  .heroSection { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sideInfo { position: static; }
+  
+  /* Sur mobile, on repasse à une seule colonne pour la galerie */
+  .photoGallery { column-count: 1; }
+}
+
+/* ---------- Cartel (titre + technique + année) en petite typo ---------- */
+.caption {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--color-muted);
+  margin-bottom: 1.6rem;
+  font-style: italic;
+}
+
+/* ---------- Vignette vidéo cliquable ---------- */
+.videoThumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0;
+  border: none;
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+.videoThumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.videoThumb:hover img {
+  opacity: 0.88;
+  transform: scale(1.02);
+}
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2a2a2a;
+  backdrop-filter: blur(2px);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.videoThumb:hover .playBtn {
+  background: #fff;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+.playBtn svg { margin-left: 2px; }
+
+/* ---------- Lightbox vidéo ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 20, 20, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.lightboxVideo {
+  max-width: min(1100px, 92vw);
+  max-height: 86vh;
+  width: auto;
+  height: auto;
+  display: block;
+  background: #000;
+}
+.lightboxClose {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.8rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+.lightboxClose:hover { opacity: 1; }
