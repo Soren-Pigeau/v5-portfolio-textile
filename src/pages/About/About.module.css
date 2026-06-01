@@ -34,7 +34,7 @@
 .contact a { transition: opacity 0.2s ease; }
 .bio { max-width: 620px; }
 .bio p { margin-bottom: 0.9rem; font-size: 0.98rem; line-height: 1.65; font-weight: 300; }
-.portrait { margin-top: 1.5rem; width: 100%; max-width: 320px; }
+.portrait { margin-top: 2rem; width: 100%; max-width: 100%; }
 
 /* --- DÉMARCHE : PARAGRAPHES ÉPURÉS --- */
 .demarcheText {

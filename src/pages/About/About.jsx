@@ -41,12 +41,12 @@ export default function About() {
                 <a href={`mailto:${a.email}`}><MailIcon /> {a.email}</a>
                 <a href="https://instagram.com/_cyrielle_p" target="_blank" rel="noreferrer"><InstaIcon /> {a.instagram}</a>
                 <span><PinIcon /> {a.location}</span>
-              </div>
-              <div className={styles.bio}>
-                {a.bio.split('\n').map((line, i) => <p key={i}>{line}</p>)}
                 {aboutPortrait && (
                   <img src={aboutPortrait} alt="Cyrielle Pigeau" className={styles.portrait} />
                 )}
+              </div>
+              <div className={styles.bio}>
+                {a.bio.split('\n').map((line, i) => <p key={i}>{line}</p>)}
               </div>
             </div>
           )}
