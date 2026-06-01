@@ -14,6 +14,7 @@
   left: 2rem;
   z-index: 50;
   font-family: var(--font-display);
+  font-weight: 400; /* Bilo Regular : le nom est un titre/identité */
   font-size: 1.35rem;
   line-height: 1.1;
   letter-spacing: 0.02em;

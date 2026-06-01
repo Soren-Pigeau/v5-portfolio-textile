@@ -91,8 +91,14 @@ export default function ProjectsPage({ section }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Cartel en petite typo */}
-            <p className={styles.caption}>{caption}</p>
+            {/* Cartel en petite typo : seul le titre d'oeuvre (entre *...*) est en italique */}
+            <p className={styles.caption}>
+              {caption.split('*').map((part, i) =>
+                i % 2 === 1
+                  ? <em key={i} className={styles.captionTitle}>{part}</em>
+                  : part
+              )}
+            </p>
 
             <div className={styles.infoText}>
               {body.map((line, i) => <p key={i}>{line}</p>)}

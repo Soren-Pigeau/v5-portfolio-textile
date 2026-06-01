@@ -151,6 +151,10 @@
   letter-spacing: 0.01em;
   color: var(--color-muted);
   margin-bottom: 1.6rem;
+  font-style: normal; /* texte du cartel en romain */
+}
+/* Seul le titre de l'oeuvre est en italique */
+.captionTitle {
   font-style: italic;
 }
 
