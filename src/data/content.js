@@ -59,9 +59,9 @@ export const pdfPages = {
 // (3 visuels au choix — modifie les images ou titres ici)
 // ---- "Dernières œuvres" affichées sur la page d'accueil ----
 export const recentWorks = [
-  { img: cover01, title: 'Les poseurs',     year: '2024' },
-  { img: cover02, title: 'Intérieur',       year: '2024' },
-  { img: cover05, title: 'Fleur en Strass', year: '2025' },
+  { img: cover01, title: 'Atelier de tapissier ou les poseurs', year: '2024' },
+  { img: cover02, title: 'Intérieur tapissé', year: '2026' },
+  { img: cover05, title: 'Fleur en Strass', year: '2024' },
 ];
 
 // =============================================================

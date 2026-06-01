@@ -41,6 +41,7 @@
 
 /* --- Nav principale (bas gauche) --- */
 .nav {
+  font-weight: 300;
   position: fixed;
   bottom: 1.75rem;
   left: 2rem;
@@ -62,8 +63,7 @@
 .overlay .name,
 .overlay .lang,
 .overlay .nav {
-  color: #fff;
-  mix-blend-mode: difference;
+  color: #2a2a2a; /* même couleur que sur les autres pages, pas d'effet de fusion */
 }
 
 @media (max-width: 768px) {
