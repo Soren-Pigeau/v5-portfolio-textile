@@ -28,6 +28,7 @@ import interieurPoster from '../assets/video/interieur-video-poster.jpg';
 
 export const projectVideos = {
   interieur: { src: interieurVideo, poster: interieurPoster },
+  poseurs: { youtube: 'FobrDoSX2f8' }, // vidéo YouTube (cahier des charges)
 };
 const wInterieur = load(import.meta.glob('../assets/photos/work/2-interieur/*.jpg', { eager: true, query: '?url', import: 'default' }));
 const wTissage   = load(import.meta.glob('../assets/photos/work/3-tissage/*.jpg', { eager: true, query: '?url', import: 'default' }));
@@ -112,7 +113,7 @@ export const sections = {
   // Astuce : pour afficher l'année sous une vignette (comme sur l'accueil),
   // renseigne le champ year. Laisse-le vide ('') si tu ne veux rien afficher.
   projects: [
-    { slug: 'les-poseurs',     title: 'Atelier de tapissier ou les poseurs', year: '2024', photos: wPoseurs,   cover: cover01, info: infoPoseurs },
+    { slug: 'les-poseurs',     title: 'Atelier de tapissier ou les poseurs', year: '2024', photos: wPoseurs,   cover: cover01, info: infoPoseurs, video: 'poseurs' },
     { slug: 'interieur',       title: 'Intérieur tapissé', year: '2026', photos: wInterieur, cover: cover02, info: infoInterieur, video: 'interieur' },
     { slug: 'tissage',         title: 'Tissage',         year: '2026', photos: wTissage,   cover: cover03, info: infoTissage },
     { slug: 'wool-production', title: 'Lacaune',         year: '2021', photos: wWool,      cover: cover06, info: infoWool },

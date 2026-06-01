@@ -67,6 +67,10 @@ export default function ProjectsPage({ section }) {
 
   // Vidéo éventuelle liée au projet
   const video = f.video ? projectVideos[f.video] : null;
+  // Miniature : poster du MP4, sinon vignette officielle YouTube
+  const videoPoster = video
+    ? (video.poster || (video.youtube ? `https://img.youtube.com/vi/${video.youtube}/maxresdefault.jpg` : null))
+    : null;
 
   return (
     <Layout>
@@ -109,16 +113,6 @@ export default function ProjectsPage({ section }) {
                 </a>
               )}
             </div>
-
-            {/* Vignette vidéo cliquable */}
-            {video && (
-              <button className={styles.videoThumb} onClick={() => setVideoOpen(true)} aria-label="Lire la vidéo">
-                <img src={video.poster} alt="" />
-                <span className={styles.playBtn} aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                </span>
-              </button>
-            )}
           </motion.aside>
         </div>
 
@@ -139,6 +133,33 @@ export default function ProjectsPage({ section }) {
             ))}
           </div>
         )}
+
+        {/* VIDÉO en fin de projet */}
+        {video && (
+          <motion.button
+            className={styles.videoThumb}
+            onClick={() => setVideoOpen(true)}
+            aria-label="Lire la vidéo"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-10%' }}
+            transition={{ duration: 0.6 }}
+          >
+            <img
+              src={videoPoster}
+              alt=""
+              onError={(e) => {
+                if (video.youtube && !e.currentTarget.dataset.fallback) {
+                  e.currentTarget.dataset.fallback = '1';
+                  e.currentTarget.src = `https://img.youtube.com/vi/${video.youtube}/hqdefault.jpg`;
+                }
+              }}
+            />
+            <span className={styles.playBtn} aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+            </span>
+          </motion.button>
+        )}
       </div>
 
       {/* LIGHTBOX VIDÉO */}
@@ -153,18 +174,36 @@ export default function ProjectsPage({ section }) {
             onClick={() => setVideoOpen(false)}
           >
             <button className={styles.lightboxClose} onClick={() => setVideoOpen(false)} aria-label="Fermer">×</button>
-            <motion.video
-              className={styles.lightboxVideo}
-              src={video.src}
-              poster={video.poster}
-              controls
-              autoPlay
-              playsInline
-              initial={{ scale: 0.96 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.96 }}
-              onClick={(e) => e.stopPropagation()}
-            />
+            {video.youtube ? (
+              <motion.div
+                className={styles.lightboxYoutube}
+                initial={{ scale: 0.96 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.96 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${video.youtube}?autoplay=1&rel=0`}
+                  title="Vidéo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </motion.div>
+            ) : (
+              <motion.video
+                className={styles.lightboxVideo}
+                src={video.src}
+                poster={video.poster}
+                controls
+                autoPlay
+                playsInline
+                initial={{ scale: 0.96 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.96 }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
