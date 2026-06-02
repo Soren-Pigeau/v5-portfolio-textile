@@ -116,15 +116,14 @@ export default function ProjectsPage({ section }) {
           </motion.aside>
         </div>
 
-        {/* Bouton vidéo réutilisable */}
-        {/* eslint-disable-next-line no-unused-vars */}
-
-        {/* SECTION BAS : Galerie + vidéo éventuellement intercalée */}
+        {/* SECTION BAS : Galerie (1 seule grille) + vidéo insérée comme un item */}
         {(() => {
-          // Bouton vidéo (vignette cliquable)
+          const pos = video && f.videoInGallery ? f.videoInGallery : null;
+
           const renderVideo = (full) => (
             <motion.button
-              className={`${styles.videoThumb} ${full ? styles.videoThumbFull : ''}`}
+              key="video"
+              className={`${styles.videoThumb} ${full ? styles.videoThumbFull : styles.videoInGrid}`}
               onClick={() => setVideoOpen(true)}
               aria-label="Lire la vidéo"
               initial={{ opacity: 0, y: 30 }}
@@ -148,47 +147,30 @@ export default function ProjectsPage({ section }) {
             </motion.button>
           );
 
-          const Gallery = (photos, startIndex) => (
-            photos.length > 0 && (
-              <div className={styles.photoGallery}>
-                {photos.map((src, i) => (
-                  <motion.div
-                    key={startIndex + i}
-                    className={styles.galleryItem}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-10%' }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <img src={src} alt={`${f.title} ${startIndex + i + 2}`} />
-                  </motion.div>
-                ))}
-              </div>
-            )
-          );
+          if (otherPhotos.length === 0 && !video) return null;
 
-          // Position d'insertion de la vidéo DANS la galerie (sinon à la fin)
-          const pos = video && f.videoInGallery ? f.videoInGallery : null;
+          // On construit la liste des éléments de la grille (photos), puis on insère la vidéo.
+          const items = otherPhotos.map((src, i) => (
+            <motion.div
+              key={i}
+              className={styles.galleryItem}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 0.6 }}
+            >
+              <img src={src} alt={`${f.title} ${i + 2}`} />
+            </motion.div>
+          ));
 
-          if (video && pos) {
-            const before = otherPhotos.slice(0, pos);
-            const after = otherPhotos.slice(pos);
-            return (
-              <>
-                {Gallery(before, 0)}
-                {renderVideo(true)}
-                {Gallery(after, pos)}
-              </>
-            );
+          if (video) {
+            const insertAt = (pos === null || pos > items.length) ? items.length : pos;
+            items.splice(insertAt, 0, (
+              <div key="video" className={styles.galleryItem}>{renderVideo(false)}</div>
+            ));
           }
 
-          // Sinon : galerie complète puis vidéo à la fin (cas "les poseurs")
-          return (
-            <>
-              {Gallery(otherPhotos, 0)}
-              {video && renderVideo(false)}
-            </>
-          );
+          return <div className={styles.photoGallery}>{items}</div>;
         })()}
       </div>
 
