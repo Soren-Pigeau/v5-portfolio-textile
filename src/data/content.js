@@ -60,9 +60,9 @@ export const pdfPages = {
 // (3 visuels au choix — modifie les images ou titres ici)
 // ---- "Dernières œuvres" affichées sur la page d'accueil ----
 export const recentWorks = [
-  { img: cover01, title: 'Atelier de tapissier ou les poseurs', year: '2024' },
-  { img: cover02, title: 'Intérieur tapissé', year: '2026' },
-  { img: cover05, title: 'Fleur en Strass', year: '2024' },
+  { img: cover01, title: 'Atelier de tapissier ou les poseurs', year: '2024', slug: 'les-poseurs' },
+  { img: cover02, title: 'Intérieur tapissé', year: '2026', slug: 'interieur' },
+  { img: cover05, title: 'Fleur en Strass', year: '2024', slug: 'fleur-en-strass' },
 ];
 
 // =============================================================
@@ -114,7 +114,7 @@ export const sections = {
   // renseigne le champ year. Laisse-le vide ('') si tu ne veux rien afficher.
   projects: [
     { slug: 'les-poseurs',     title: 'Atelier de tapissier ou les poseurs', year: '2024', photos: wPoseurs,   cover: cover01, info: infoPoseurs, video: 'poseurs' },
-    { slug: 'interieur',       title: 'Intérieur tapissé', year: '2026', photos: wInterieur, cover: cover02, info: infoInterieur, video: 'interieur' },
+    { slug: 'interieur',       title: 'Intérieur tapissé', year: '2026', photos: wInterieur, cover: cover02, info: infoInterieur, video: 'interieur', videoInGallery: 2 },
     { slug: 'tissage',         title: 'Tissage',         year: '2026', photos: wTissage,   cover: cover03, info: infoTissage },
     { slug: 'wool-production', title: 'Lacaune',         year: '2021', photos: wWool,      cover: cover06, info: infoWool },
     { slug: 'fleur-en-strass', title: 'Fleur en Strass', year: '2024', photos: wFleur,     cover: cover05, info: infoFleur },

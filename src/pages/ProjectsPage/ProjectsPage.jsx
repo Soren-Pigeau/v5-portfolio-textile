@@ -116,50 +116,80 @@ export default function ProjectsPage({ section }) {
           </motion.aside>
         </div>
 
-        {/* SECTION BAS : Galerie Mixte (Verticale / Horizontale) */}
-        {otherPhotos.length > 0 && (
-          <div className={styles.photoGallery}>
-            {otherPhotos.map((src, i) => (
-              <motion.div
-                key={i}
-                className={styles.galleryItem}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ duration: 0.6 }}
-              >
-                <img src={src} alt={`${f.title} ${i + 2}`} />
-              </motion.div>
-            ))}
-          </div>
-        )}
+        {/* Bouton vidéo réutilisable */}
+        {/* eslint-disable-next-line no-unused-vars */}
 
-        {/* VIDÉO en fin de projet */}
-        {video && (
-          <motion.button
-            className={styles.videoThumb}
-            onClick={() => setVideoOpen(true)}
-            aria-label="Lire la vidéo"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.6 }}
-          >
-            <img
-              src={videoPoster}
-              alt=""
-              onError={(e) => {
-                if (video.youtube && !e.currentTarget.dataset.fallback) {
-                  e.currentTarget.dataset.fallback = '1';
-                  e.currentTarget.src = `https://img.youtube.com/vi/${video.youtube}/hqdefault.jpg`;
-                }
-              }}
-            />
-            <span className={styles.playBtn} aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-            </span>
-          </motion.button>
-        )}
+        {/* SECTION BAS : Galerie + vidéo éventuellement intercalée */}
+        {(() => {
+          // Bouton vidéo (vignette cliquable)
+          const renderVideo = (full) => (
+            <motion.button
+              className={`${styles.videoThumb} ${full ? styles.videoThumbFull : ''}`}
+              onClick={() => setVideoOpen(true)}
+              aria-label="Lire la vidéo"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 0.6 }}
+            >
+              <img
+                src={videoPoster}
+                alt=""
+                onError={(e) => {
+                  if (video.youtube && !e.currentTarget.dataset.fallback) {
+                    e.currentTarget.dataset.fallback = '1';
+                    e.currentTarget.src = `https://img.youtube.com/vi/${video.youtube}/hqdefault.jpg`;
+                  }
+                }}
+              />
+              <span className={styles.playBtn} aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+              </span>
+            </motion.button>
+          );
+
+          const Gallery = (photos, startIndex) => (
+            photos.length > 0 && (
+              <div className={styles.photoGallery}>
+                {photos.map((src, i) => (
+                  <motion.div
+                    key={startIndex + i}
+                    className={styles.galleryItem}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-10%' }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <img src={src} alt={`${f.title} ${startIndex + i + 2}`} />
+                  </motion.div>
+                ))}
+              </div>
+            )
+          );
+
+          // Position d'insertion de la vidéo DANS la galerie (sinon à la fin)
+          const pos = video && f.videoInGallery ? f.videoInGallery : null;
+
+          if (video && pos) {
+            const before = otherPhotos.slice(0, pos);
+            const after = otherPhotos.slice(pos);
+            return (
+              <>
+                {Gallery(before, 0)}
+                {renderVideo(true)}
+                {Gallery(after, pos)}
+              </>
+            );
+          }
+
+          // Sinon : galerie complète puis vidéo à la fin (cas "les poseurs")
+          return (
+            <>
+              {Gallery(otherPhotos, 0)}
+              {video && renderVideo(false)}
+            </>
+          );
+        })()}
       </div>
 
       {/* LIGHTBOX VIDÉO */}

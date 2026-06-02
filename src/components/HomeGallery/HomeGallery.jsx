@@ -26,7 +26,7 @@ export default function HomeGallery() {
       >
         {recentWorks.map((w, i) => (
           <motion.figure key={i} className={styles.item} variants={item} whileHover={{ y: -8 }}>
-            <Link to="/projects" className={styles.imageWrapper}>
+            <Link to={`/projects/${w.slug}`} className={styles.imageWrapper}>
               <motion.img
                 src={w.img}
                 alt={w.title}
